@@ -72,10 +72,10 @@ export default function UserManagement({
   };
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8 w-full">
+      <div className="flex flex-col gap-4 w-full">
         <h2 className="text-2xl font-bold">Create New User</h2>
-        <form className="flex flex-col gap-4 max-w-md">
+        <form className="flex flex-col gap-4 w-full max-w-md">
           <div className="flex flex-col gap-2">
             <Label htmlFor="email">Email</Label>
             <div className="relative">
@@ -85,7 +85,7 @@ export default function UserManagement({
                 name="email"
                 type="email"
                 placeholder="user@example.com"
-                className="pl-10"
+                className="pl-10 w-full"
                 required
               />
             </div>
@@ -99,7 +99,7 @@ export default function UserManagement({
                 name="password"
                 type="password"
                 placeholder="Enter password"
-                className="pl-10"
+                className="pl-10 w-full"
                 required
               />
             </div>
@@ -114,20 +114,20 @@ export default function UserManagement({
         </form>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 w-full">
         <h2 className="text-2xl font-bold">Users</h2>
-        <div className="grid gap-4">
+        <div className="grid gap-4 w-full">
           {users?.map((user) => (
             <div
               key={user.id}
-              className="flex items-center gap-4 p-4 rounded-lg border bg-card"
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-lg border bg-card w-full"
             >
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">
                 <User className="h-5 w-5 text-primary" />
               </div>
-              <div className="flex-1">
-                <h3 className="font-medium">{user.email}</h3>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-medium truncate">{user.email}</h3>
+                <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                   {user.last_sign_in_at
                     ? `Last signed in: ${new Date(
                         user.last_sign_in_at
@@ -141,7 +141,7 @@ export default function UserManagement({
                   )}
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2 w-full sm:w-auto">
                 {!user.email_confirmed_at && (
                   <ConfirmAction
                     action={() => handleResendConfirmation(user)}
@@ -152,7 +152,7 @@ export default function UserManagement({
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 w-full sm:w-auto"
                       disabled={isResending}
                     >
                       <Mail className="h-4 w-4" />
@@ -169,7 +169,7 @@ export default function UserManagement({
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 w-full sm:w-auto"
                     disabled={isResetting}
                   >
                     <KeyRound className="h-4 w-4" />
@@ -185,7 +185,7 @@ export default function UserManagement({
                   <Button
                     variant="destructive"
                     size="sm"
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 w-full sm:w-auto"
                     disabled={isDeleting}
                   >
                     <Trash2 className="h-4 w-4" />
