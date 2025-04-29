@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClient } from "@/utils/supabase/client";
+import { ConfirmAction } from "@/components/modal/confirmAction";
 
 export default function DeviceAddModal({
   openAdd,
@@ -51,8 +52,8 @@ export default function DeviceAddModal({
         .insert({
           location_nickname: value.location_nickname,
           location_fullname: value.location_nickname,
-          x_axis: value.x_axis,
-          y_axis: value.y_axis,
+          x_axis: value.x_axis + 0.01,
+          y_axis: value.y_axis + 0.01,
           service_id: value.service_id,
           map_id: mapId,
           status: "active",
@@ -229,7 +230,13 @@ export default function DeviceAddModal({
                 </div>
               )}
             </form.Field>
-            <Button className="mt-4 w-full">ส่งบันทึก</Button>
+            <ConfirmAction
+              action={() => form.handleSubmit()}
+              message="คุณต้องการบันทึกข้อมูลอุปกรณ์ใหม่หรือไม่?"
+              title="ยืนยันการบันทึกข้อมูล"
+            >
+              <Button className="mt-4 w-full">ส่งบันทึก</Button>
+            </ConfirmAction>
           </form>
         </DialogHeader>
       </DialogContent>

@@ -22,11 +22,6 @@ export default function Navbar() {
             Device
           </NavigationMenuLink>
         </Link>
-        <Link href="/protected/route" legacyBehavior passHref>
-          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Route
-          </NavigationMenuLink>
-        </Link>
         <Link href="/protected/manager" legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
             Manager

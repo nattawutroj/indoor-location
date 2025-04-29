@@ -16,6 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { default as ImageNext } from "next/image";
 import React from "react";
+import { ConfirmAction } from "@/components/modal/confirmAction";
 
 export default function MapAddModal({
   openAdd,
@@ -167,14 +168,19 @@ export default function MapAddModal({
                     </div>
                   )}
 
-                  <Button
-                    onClick={() => inputFileRef.current?.click()}
-                    type="button"
-                    className="w-full mt-2"
-                    disabled={!!path}
+                  <ConfirmAction
+                    action={() => inputFileRef.current?.click()}
+                    message="คุณต้องการอัพโหลดแผนที่ใหม่หรือไม่?"
+                    title="ยืนยันการอัพโหลดแผนที่"
                   >
-                    อัพโหลดรูปภาพ
-                  </Button>
+                    <Button
+                      type="button"
+                      className="w-full mt-2"
+                      disabled={!!path}
+                    >
+                      อัพโหลดรูปภาพ
+                    </Button>
+                  </ConfirmAction>
 
                   {field.state.meta.errors.length !== 0 && (
                     <p className="mt-1 text-xs text-destructive">

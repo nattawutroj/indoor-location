@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createClient } from "@/utils/supabase/client";
 import { useGetHardwareByID } from "./deviceInfo";
+import { ConfirmAction } from "@/components/modal/confirmAction";
 
 export default function DeviceEditModal({
   hardwareIdEdit,
@@ -51,8 +52,8 @@ export default function DeviceEditModal({
         .update({
           location_nickname: value.location_nickname,
           location_fullname: value.location_nickname,
-          x_axis: value.x_axis,
-          y_axis: value.y_axis,
+          x_axis: value.x_axis + 0.02,
+          y_axis: value.y_axis + 0.02,
           service_id: value.service_id,
           map_id: mapId,
         })
@@ -250,7 +251,13 @@ export default function DeviceEditModal({
                 </div>
               )}
             </form.Field>
-            <Button className="mt-4 w-full">ส่งบันทึก</Button>
+            <ConfirmAction
+              action={() => form.handleSubmit()}
+              message="คุณต้องการบันทึกการแก้ไขข้อมูลอุปกรณ์หรือไม่?"
+              title="ยืนยันการบันทึกข้อมูล"
+            >
+              <Button className="mt-4 w-full">ส่งบันทึก</Button>
+            </ConfirmAction>
           </form>
         </DialogHeader>
       </DialogContent>

@@ -10,6 +10,7 @@ import DeviceAddModal from "./modal/deviceAdd";
 import DeviceInfoModal from "./modal/deviceInfo";
 import { Enums } from "@/utils/supabase/database.types";
 import DeviceEditModal from "./modal/deviceEdit";
+import { ConfirmAction } from "@/components/modal/confirmAction";
 
 export const useGetHardware = () => {
   return useQuery({
@@ -101,26 +102,36 @@ export const TableHardwareWrapper = () => {
             return (
               <div className="flex gap-2">
                 {data.status !== "inactive" && (
-                  <Button
-                    variant={"outline"}
-                    className="w-28 bg-pink-500 hover:bg-pink-400 text-white"
-                    onClick={() => {
+                  <ConfirmAction
+                    action={() => {
                       mutationStatus.mutate({ value: "inactive", id: data.id });
                     }}
+                    message="คุณต้องการระงับอุปกรณ์นี้หรือไม่?"
+                    title="ยืนยันการระงับอุปกรณ์"
                   >
-                    ระงับอุปกรณ์
-                  </Button>
+                    <Button
+                      variant={"outline"}
+                      className="w-28 bg-pink-500 hover:bg-pink-400 text-white"
+                    >
+                      ระงับอุปกรณ์
+                    </Button>
+                  </ConfirmAction>
                 )}
                 {data.status !== "active" && (
-                  <Button
-                    variant={"outline"}
-                    className="w-28 bg-green-500 hover:bg-green-400 text-white"
-                    onClick={() => {
+                  <ConfirmAction
+                    action={() => {
                       mutationStatus.mutate({ value: "active", id: data.id });
                     }}
+                    message="คุณต้องการเปิดใช้งานอุปกรณ์นี้หรือไม่?"
+                    title="ยืนยันการเปิดใช้งาน"
                   >
-                    เปิดใช้งาน
-                  </Button>
+                    <Button
+                      variant={"outline"}
+                      className="w-28 bg-green-500 hover:bg-green-400 text-white"
+                    >
+                      เปิดใช้งาน
+                    </Button>
+                  </ConfirmAction>
                 )}
                 <Button
                   variant={"outline"}
@@ -140,14 +151,17 @@ export const TableHardwareWrapper = () => {
                 >
                   <InfoIcon size={20} />
                 </Button>
-                <Button
-                  variant={"destructive"}
-                  onClick={() => {
+                <ConfirmAction
+                  action={() => {
                     mutationRemove.mutate({ id: data.id });
                   }}
+                  message="คุณต้องการลบอุปกรณ์นี้หรือไม่?"
+                  title="ยืนยันการลบอุปกรณ์"
                 >
-                  <Trash size={20} />
-                </Button>
+                  <Button variant="outline" className="text-red-500">
+                    <Trash className="w-4 h-4" />
+                  </Button>
+                </ConfirmAction>
               </div>
             );
           }}
