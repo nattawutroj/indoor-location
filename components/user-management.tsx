@@ -74,10 +74,10 @@ export default function UserManagement({
   return (
     <div className="flex flex-col gap-8 w-full">
       <div className="flex flex-col gap-4 w-full">
-        <h2 className="text-2xl font-bold">Create New User</h2>
+        <h2 className="text-2xl font-bold">สร้างผู้ใช้ใหม่</h2>
         <form className="flex flex-col gap-4 w-full max-w-md">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">อีเมล</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
@@ -91,14 +91,14 @@ export default function UserManagement({
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">รหัสผ่าน</Label>
             <div className="relative">
               <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
                 id="password"
                 name="password"
                 type="password"
-                placeholder="Enter password"
+                placeholder="กรอกรหัสผ่าน"
                 className="pl-10 w-full"
                 required
               />
@@ -106,16 +106,16 @@ export default function UserManagement({
           </div>
           <SubmitButton
             formAction={inviteUserAction}
-            pendingText="Creating user..."
+            pendingText="กำลังสร้างผู้ใช้..."
           >
-            Create User
+            สร้างผู้ใช้
           </SubmitButton>
           <FormMessage message={message} />
         </form>
       </div>
 
       <div className="flex flex-col gap-4 w-full">
-        <h2 className="text-2xl font-bold">Users</h2>
+        <h2 className="text-2xl font-bold">ผู้ใช้</h2>
         <div className="grid gap-4 w-full">
           {users?.map((user) => (
             <div
@@ -129,14 +129,14 @@ export default function UserManagement({
                 <h3 className="font-medium truncate">{user.email}</h3>
                 <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                   {user.last_sign_in_at
-                    ? `Last signed in: ${new Date(
+                    ? `เข้าสู่ระบบล่าสุด: ${new Date(
                         user.last_sign_in_at
                       ).toLocaleDateString()}`
-                    : "Never signed in"}
+                    : "ยังไม่เคยเข้าสู่ระบบ"}
                   {!user.email_confirmed_at && (
                     <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
                       <Mail className="h-3 w-3" />
-                      Unconfirmed
+                      ยังไม่ยืนยัน
                     </span>
                   )}
                 </div>
@@ -145,9 +145,9 @@ export default function UserManagement({
                 {!user.email_confirmed_at && (
                   <ConfirmAction
                     action={() => handleResendConfirmation(user)}
-                    title="Resend Confirmation"
-                    message={`Are you sure you want to resend confirmation email to ${user.email}?`}
-                    confirmText="Resend"
+                    title="ส่งการยืนยันอีกครั้ง"
+                    message={`คุณแน่ใจหรือไม่ที่จะส่งอีเมลยืนยันไปยัง ${user.email}?`}
+                    confirmText="ส่ง"
                   >
                     <Button
                       variant="outline"
@@ -156,15 +156,15 @@ export default function UserManagement({
                       disabled={isResending}
                     >
                       <Mail className="h-4 w-4" />
-                      {isResending ? "Sending..." : "Resend Confirmation"}
+                      {isResending ? "กำลังส่ง..." : "ส่งการยืนยันอีกครั้ง"}
                     </Button>
                   </ConfirmAction>
                 )}
                 <ConfirmAction
                   action={() => handleResetPassword(user)}
-                  title="Reset Password"
-                  message={`Are you sure you want to reset password for ${user.email}?`}
-                  confirmText="Reset"
+                  title="รีเซ็ตรหัสผ่าน"
+                  message={`คุณแน่ใจหรือไม่ที่จะรีเซ็ตรหัสผ่านสำหรับ ${user.email}?`}
+                  confirmText="รีเซ็ต"
                 >
                   <Button
                     variant="outline"
@@ -173,14 +173,14 @@ export default function UserManagement({
                     disabled={isResetting}
                   >
                     <KeyRound className="h-4 w-4" />
-                    {isResetting ? "Resetting..." : "Reset Password"}
+                    {isResetting ? "กำลังรีเซ็ต..." : "รีเซ็ตรหัสผ่าน"}
                   </Button>
                 </ConfirmAction>
                 <ConfirmAction
                   action={() => handleDelete(user)}
-                  title="Delete User"
-                  message={`Are you sure you want to delete ${user.email}? This action cannot be undone.`}
-                  confirmText="Delete"
+                  title="ลบผู้ใช้"
+                  message={`คุณแน่ใจหรือไม่ที่จะลบ ${user.email}? การกระทำนี้ไม่สามารถยกเลิกได้`}
+                  confirmText="ลบ"
                 >
                   <Button
                     variant="destructive"
@@ -189,7 +189,7 @@ export default function UserManagement({
                     disabled={isDeleting}
                   >
                     <Trash2 className="h-4 w-4" />
-                    {isDeleting ? "Deleting..." : "Delete"}
+                    {isDeleting ? "กำลังลบ..." : "ลบ"}
                   </Button>
                 </ConfirmAction>
               </div>

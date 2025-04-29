@@ -7,30 +7,29 @@ export default function SignUpUserSteps() {
     <ol className="flex flex-col gap-6">
       {process.env.VERCEL_ENV === "preview" ||
       process.env.VERCEL_ENV === "production" ? (
-        <TutorialStep title="Set up redirect urls">
-          <p>It looks like this App is hosted on Vercel.</p>
+        <TutorialStep title="ตั้งค่า URL สำหรับการเปลี่ยนเส้นทาง">
+          <p>ดูเหมือนว่าแอปนี้ถูกโฮสต์บน Vercel</p>
           <p className="mt-4">
-            This particular deployment is
+            การติดตั้งนี้เป็น
             <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-medium text-secondary-foreground border">
               "{process.env.VERCEL_ENV}"
             </span>{" "}
-            on
+            บน
             <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-medium text-secondary-foreground border">
               https://{process.env.VERCEL_URL}
             </span>
-            .
           </p>
           <p className="mt-4">
-            You will need to{" "}
+            คุณจะต้อง{" "}
             <Link
               className="text-primary hover:text-foreground"
               href={
                 "https://supabase.com/dashboard/project/_/auth/url-configuration"
               }
             >
-              update your Supabase project
+              อัปเดตโปรเจค Supabase ของคุณ
             </Link>{" "}
-            with redirect URLs based on your Vercel deployment URLs.
+            ด้วย URL สำหรับการเปลี่ยนเส้นทางตาม URL การติดตั้ง Vercel ของคุณ
           </p>
           <ul className="mt-4">
             <li>
@@ -50,13 +49,13 @@ export default function SignUpUserSteps() {
               <span className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-medium text-secondary-foreground border">
                 {`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL?.replace(".vercel.app", "")}-*-[vercel-team-url].vercel.app/**`}
               </span>{" "}
-              (Vercel Team URL can be found in{" "}
+              (URL ทีม Vercel สามารถพบได้ใน{" "}
               <Link
                 className="text-primary hover:text-foreground"
                 href="https://vercel.com/docs/accounts/create-a-team#find-your-team-id"
                 target="_blank"
               >
-                Vercel Team settings
+                การตั้งค่าทีม Vercel
               </Link>
               )
             </li>
@@ -66,21 +65,20 @@ export default function SignUpUserSteps() {
             target="_blank"
             className="text-primary/50 hover:text-primary flex items-center text-sm gap-1 mt-4"
           >
-            Redirect URLs Docs <ArrowUpRight size={14} />
+            เอกสาร URL สำหรับการเปลี่ยนเส้นทาง <ArrowUpRight size={14} />
           </Link>
         </TutorialStep>
       ) : null}
-      <TutorialStep title="Sign up your first user">
+      <TutorialStep title="สมัครสมาชิกผู้ใช้คนแรก">
         <p>
-          Head over to the{" "}
+          ไปที่หน้า{" "}
           <Link
             href="/sign-up"
             className="font-bold hover:underline text-foreground/80"
           >
-            Sign up
+            สมัครสมาชิก
           </Link>{" "}
-          page and sign up your first user. It's okay if this is just you for
-          now. Your awesome idea will have plenty of users later!
+          และสมัครสมาชิกผู้ใช้คนแรก ไม่เป็นไรถ้าเป็นแค่คุณตอนนี้ ไอเดียที่ยอดเยี่ยมของคุณจะมีผู้ใช้มากมายในภายหลัง!
         </p>
       </TutorialStep>
     </ol>

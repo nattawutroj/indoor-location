@@ -39,14 +39,14 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md w-full">
         <DialogHeader>
-          <DialogTitle>Reset Password</DialogTitle>
+          <DialogTitle>รีเซ็ตรหัสผ่าน</DialogTitle>
           <DialogDescription>
-            Enter a new password for {userEmail}
+            กรอกรหัสผ่านใหม่สำหรับ {userEmail}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="newPassword">New Password</Label>
+            <Label htmlFor="newPassword">รหัสผ่านใหม่</Label>
             <div className="relative">
               <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
@@ -54,7 +54,7 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Enter new password"
+                placeholder="กรอกรหัสผ่านใหม่"
                 className="pl-10 w-full"
                 required
               />
@@ -67,10 +67,10 @@ export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
               onClick={() => onOpenChange(false)}
               className="w-full sm:w-auto"
             >
-              Cancel
+              ยกเลิก
             </Button>
             <Button type="submit" className="w-full sm:w-auto">
-              Reset Password
+              รีเซ็ตรหัสผ่าน
             </Button>
           </div>
         </form>

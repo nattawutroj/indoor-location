@@ -14,17 +14,17 @@ export default function Navbar() {
       <NavigationMenuList>
         <Link href="/protected/maps" legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Maps
+            แผนที่
           </NavigationMenuLink>
         </Link>
         <Link href="/protected/device" legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Device
+            อุปกรณ์
           </NavigationMenuLink>
         </Link>
         <Link href="/protected/manager" legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Manager
+            ผู้จัดการ
           </NavigationMenuLink>
         </Link>
       </NavigationMenuList>
