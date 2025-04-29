@@ -1,0 +1,77 @@
+"use client";
+
+import React from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { KeyRound } from "lucide-react";
+
+interface ResetPasswordModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onReset: (newPassword: string) => void;
+  userEmail: string;
+}
+
+export const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
+  open,
+  onOpenChange,
+  onReset,
+  userEmail,
+}) => {
+  const [newPassword, setNewPassword] = React.useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onReset(newPassword);
+    setNewPassword("");
+    onOpenChange(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Reset Password</DialogTitle>
+          <DialogDescription>
+            Enter a new password for {userEmail}
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="newPassword">New Password</Label>
+            <div className="relative">
+              <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                id="newPassword"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Enter new password"
+                className="pl-10"
+                required
+              />
+            </div>
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="submit">Reset Password</Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}; 

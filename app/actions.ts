@@ -2,6 +2,7 @@
 
 import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/admin";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -15,7 +16,7 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect(
       "error",
       "/sign-up",
-      "Email and password are required",
+      "Email and password are required"
     );
   }
 
@@ -34,7 +35,7 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect(
       "success",
       "/sign-up",
-      "Thanks for signing up! Please check your email for a verification link.",
+      "Thanks for signing up! Please check your email for a verification link."
     );
   }
 };
@@ -75,7 +76,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     return encodedRedirect(
       "error",
       "/forgot-password",
-      "Could not reset password",
+      "Could not reset password"
     );
   }
 
@@ -86,45 +87,36 @@ export const forgotPasswordAction = async (formData: FormData) => {
   return encodedRedirect(
     "success",
     "/forgot-password",
-    "Check your email for a link to reset your password.",
+    "Check your email for a link to reset your password."
   );
 };
 
 export const resetPasswordAction = async (formData: FormData) => {
-  const supabase = await createClient();
+  const newPassword = formData.get("newPassword")?.toString();
+  const userId = formData.get("userId")?.toString();
+  const supabase = createAdminClient();
 
-  const password = formData.get("password") as string;
-  const confirmPassword = formData.get("confirmPassword") as string;
-
-  if (!password || !confirmPassword) {
-    encodedRedirect(
+  if (!userId) {
+    return encodedRedirect(
       "error",
-      "/protected/reset-password",
-      "Password and confirm password are required",
+      "/protected/manager",
+      "User ID is required"
     );
   }
 
-  if (password !== confirmPassword) {
-    encodedRedirect(
-      "error",
-      "/protected/reset-password",
-      "Passwords do not match",
-    );
-  }
-
-  const { error } = await supabase.auth.updateUser({
-    password: password,
+  const { error } = await supabase.auth.admin.updateUserById(userId, {
+    password: newPassword,
   });
 
   if (error) {
-    encodedRedirect(
-      "error",
-      "/protected/reset-password",
-      "Password update failed",
-    );
+    return encodedRedirect("error", "/protected/manager", error.message);
   }
 
-  encodedRedirect("success", "/protected/reset-password", "Password updated");
+  return encodedRedirect(
+    "success",
+    "/protected/manager",
+    "Password reset successfully"
+  );
 };
 
 export const signOutAction = async () => {
@@ -132,3 +124,97 @@ export const signOutAction = async () => {
   await supabase.auth.signOut();
   return redirect("/sign-in");
 };
+
+export const deleteUserAction = async (formData: FormData) => {
+  const userId = formData.get("userId")?.toString();
+  const supabase = createAdminClient();
+
+  if (!userId) {
+    return encodedRedirect(
+      "error",
+      "/protected/manager",
+      "User ID is required"
+    );
+  }
+
+  const { error } = await supabase.auth.admin.deleteUser(userId);
+
+  if (error) {
+    return encodedRedirect("error", "/protected/manager", error.message);
+  }
+
+  return encodedRedirect(
+    "success",
+    "/protected/manager",
+    "User deleted successfully"
+  );
+};
+
+export const inviteUserAction = async (formData: FormData) => {
+  const email = formData.get("email")?.toString();
+  const password = formData.get("password")?.toString();
+  const supabase = await createClient();
+  const origin = (await headers()).get("origin");
+
+  if (!email || !password) {
+    return encodedRedirect(
+      "error",
+      "/protected/manager",
+      "Email and password are required"
+    );
+  }
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${origin}/auth/callback`,
+    },
+  });
+
+  if (error) {
+    return encodedRedirect("error", "/protected/manager", error.message);
+  }
+
+  return encodedRedirect(
+    "success",
+    "/protected/manager",
+    "User invitation link generated successfully"
+  );
+};
+
+export async function resendConfirmationAction(formData: FormData) {
+
+  const userId = formData.get("userId") as string;
+  const email = formData.get("email") as string;
+  const origin = (await headers()).get("origin");
+  if (!userId) {
+    return { error: "User ID is required" };
+  }
+
+  const supabase = await createClient();
+  
+  
+  const { error: resendError } = await supabase.auth.resend({
+    type: "signup",
+    email: email,
+    options: {
+      emailRedirectTo: `${origin}/auth/callback`,
+    },
+  });
+
+
+  if (resendError) {
+    return encodedRedirect(
+      "error",
+      "/protected/manager",
+      "Could not resend confirmation email"
+    );
+  }
+
+  return encodedRedirect(
+    "success",
+    "/protected/manager",
+    "User invitation link generated successfully"
+  );
+}
