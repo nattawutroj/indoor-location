@@ -1,7 +1,13 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname === "/protected") {
+    return NextResponse.redirect(new URL("/protected/maps", request.url));
+  }
+  if (request.nextUrl.pathname === "/") {
+    return NextResponse.redirect(new URL("/protected/maps", request.url));
+  }
   return await updateSession(request);
 }
 
